@@ -74,7 +74,12 @@ class _MainUIState extends State<MainUI> {
                   children: [
                      InkResponse(
                        child: CachedNetworkImage(
-                          width: 200,
+                         fit: BoxFit.cover,
+                         fadeOutCurve: Curves.fastLinearToSlowEaseIn,
+                          fadeInCurve: Curves.easeIn,
+                          fadeInDuration: const Duration(milliseconds: 1500),
+                          fadeOutDuration: const Duration(milliseconds: 1500),
+                          width: MediaQuery.of(context).size.width/2,
                           height: 140,
                           placeholder: (context, url) => const CircularProgressIndicator(
                             color: Colors.lightGreen,

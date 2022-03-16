@@ -21,14 +21,23 @@ class ImageUI extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CachedNetworkImage(
-              width: MediaQuery.of(context).size.width-10,
-              height: MediaQuery.of(context).size.height *.60,
-              placeholder: (context, url) => const CircularProgressIndicator(
-                color: Colors.lightGreen,
-                strokeWidth: 1.0,
+                    fit: BoxFit.cover,
+                    fadeOutCurve: Curves.fastLinearToSlowEaseIn,
+                    fadeInCurve: Curves.easeIn,
+                    fadeInDuration: const Duration(milliseconds: 1500),
+                    fadeOutDuration: const Duration(milliseconds: 1500),
+                      height: MediaQuery.of(context).size.height*.50,
+                      width: MediaQuery.of(context).size.width,
+                    placeholder: (context, url) => const CircularProgressIndicator(
+                    color: Colors.lightGreen,
+                    strokeWidth: 1.0,
+                    ),
+                  imageUrl: imageObject.urls.full,
               ),
-              imageUrl: imageObject.urls.raw,
-            ),
+            const SizedBox(height: 5,),
+            Text('Uploaded: ${imageObject.createdAt.toString()}',style: const TextStyle(
+              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18,
+            ),),
             const SizedBox(height: 5,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,10 +50,6 @@ class ImageUI extends StatelessWidget {
                 ),),
               ],
             ),
-            const SizedBox(height: 5,),
-            Text('Uploaded: ${imageObject.createdAt.toString()}',style: const TextStyle(
-              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 18,
-            ),),
             const SizedBox(height: 20,),
             TextButton(
               onPressed: (){
@@ -58,7 +63,20 @@ class ImageUI extends StatelessWidget {
             ),
                 ),
             ),
-            const Spacer(),
+            const SizedBox(height: 10,),
+            TextButton(
+              onPressed: (){
+                // set Lock Screen
+                // print('tapped');
+              },
+              child: const Text('Set Lock Screen',style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28,
+                backgroundColor: Colors.deepOrange,
+                letterSpacing: 2.0,
+              ),
+              ),
+            ),
+            //const Spacer(),
           ],
         ),
       ),
