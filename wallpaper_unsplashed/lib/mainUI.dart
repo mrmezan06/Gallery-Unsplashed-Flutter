@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wallpaper_unsplashed/imageUI.dart';
 import 'album.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
@@ -71,12 +72,24 @@ class _MainUIState extends State<MainUI> {
                 color: HexColor(_photos[index].color),
                 child: Column(
                   children: [
-                     CachedNetworkImage(
-                        width: 200,
-                        height: 140,
-                        placeholder: (context, url) => const CircularProgressIndicator(),
-                        imageUrl: _photos[index].urls.small,
-                      ),
+                     InkResponse(
+                       child: CachedNetworkImage(
+                          width: 200,
+                          height: 140,
+                          placeholder: (context, url) => const CircularProgressIndicator(
+                            color: Colors.lightGreen,
+                            strokeWidth: 1.0,
+                          ),
+                          imageUrl: _photos[index].urls.small,
+                        ),
+                       onTap: (){
+                        // print('tapped');
+                         Navigator.push(
+                           context,
+                           MaterialPageRoute(builder: (context) => ImageUI(imageObject: _photos[index],)),
+                         );
+                       },
+                     ),
                     const SizedBox(height: 10.0,),
                     Text('Hit : ${_photos[index].likes}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                   ],
