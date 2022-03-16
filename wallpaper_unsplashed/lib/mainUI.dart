@@ -1,10 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'album.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 class MainUI extends StatefulWidget {
   const MainUI({Key? key}) : super(key: key);
@@ -18,12 +19,15 @@ class _MainUIState extends State<MainUI> {
   List<PhotoList> _photos = [];
 
   Future<List<PhotoList>> fetchJson() async {
-    int r = Random().nextInt(5000);
-    var response = await http.get(Uri.parse('https://api.unsplash.com/photos?client_id=Sp-dh4HdBINWnBEiNml6br1AfjS0kYc1fjnTU87F714&page=$r'));
+    _photos = [];
+    int r = Random().nextInt(299)+1;
+    var response = await http.get(Uri.parse('https://raw.githubusercontent.com/mrmezan06/Unsplash-Json-File/main/unsplash_json%20(${r.toString()}).json'));
     List<PhotoList> pList = [];
     if(response.statusCode == 200){
+      //print(response.body);
       var urJson = json.decode(response.body);
-      debugPrint(urJson);
+
+      //debugPrint(urJson);
       for(var jsondata in urJson){
         pList.add(PhotoList.fromJson(jsondata));
       }
@@ -51,13 +55,10 @@ class _MainUIState extends State<MainUI> {
         title: const Text('Fetch Image'),
       ),
       body: GestureDetector(
-        onHorizontalDragDown: (context){
-          setState(() {
-            fetchJson().then((value) {
-              setState(() {
-                _photos = [];
-                _photos.addAll(value);
-              });
+        onPanEnd: (context){
+          fetchJson().then((value) {
+            setState(() {
+              _photos.addAll(value);
             });
           });
         },
@@ -66,10 +67,16 @@ class _MainUIState extends State<MainUI> {
             crossAxisSpacing: 4.0,
             children: List.generate(_photos.length, (index) {
               return Card(
+                shadowColor: Colors.deepOrangeAccent,
                 color: HexColor(_photos[index].color),
                 child: Column(
                   children: [
-                    Image.network(_photos[index].urls.small, height: 200, width: 200, fit: BoxFit.cover,),
+                     CachedNetworkImage(
+                        width: 200,
+                        height: 140,
+                        placeholder: (context, url) => const CircularProgressIndicator(),
+                        imageUrl: _photos[index].urls.small,
+                      ),
                     const SizedBox(height: 10.0,),
                     Text('Hit : ${_photos[index].likes}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                   ],

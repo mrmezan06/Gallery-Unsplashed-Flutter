@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   hexcolor: ^2.0.6
   http: ^0.13.4
+  cached_network_image: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -47,8 +48,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
-  http: ^0.13.4
-  hexcolor: ^2.0.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
