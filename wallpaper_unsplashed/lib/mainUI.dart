@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallpaper_unsplashed/imageUI.dart';
 import 'album.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -50,10 +49,10 @@ class _MainUIState extends State<MainUI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text('Fetch Image'),
+        title: brandName(),
+        elevation: 0.0,
       ),
       body: GestureDetector(
         onPanEnd: (context){
@@ -63,50 +62,60 @@ class _MainUIState extends State<MainUI> {
             });
           });
         },
-        child: GridView.count(
-          crossAxisCount: 2,
-            crossAxisSpacing: 4.0,
-            children: List.generate(_photos.length, (index) {
-              return Card(
-                shadowColor: Colors.deepOrangeAccent,
-                color: HexColor(_photos[index].color),
-                child: Column(
-                  children: [
-                     InkResponse(
-                       child: CachedNetworkImage(
-                         fit: BoxFit.cover,
-                         fadeOutCurve: Curves.fastLinearToSlowEaseIn,
-                          fadeInCurve: Curves.easeIn,
-                          fadeInDuration: const Duration(milliseconds: 1500),
-                          fadeOutDuration: const Duration(milliseconds: 1500),
-                          width: MediaQuery.of(context).size.width/2,
-                          height: 140,
-                          placeholder: (context, url) => const CircularProgressIndicator(
-                            color: Colors.lightGreen,
-                            strokeWidth: 1.0,
-                          ),
-                          imageUrl: _photos[index].urls.small,
-                        ),
-                       onTap: (){
-                        // print('tapped');
-                         Navigator.push(
-                           context,
-                           MaterialPageRoute(builder: (context) => ImageUI(imageObject: _photos[index],)),
-                         );
-                       },
-                     ),
-                    const SizedBox(height: 10.0,),
-                    Text('Hit : ${_photos[index].likes}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                  ],
-                ),
-              );
-            },)
-        ),
+          child: GridView.count(
+              childAspectRatio: 0.6,
+              physics: const ClampingScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(4.0),
+              mainAxisSpacing: 6.0,
+              crossAxisSpacing: 6.0,
+              crossAxisCount: 2,
+              children: List.generate(_photos.length, (index) {
+                return GridTile(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ImageUI(imageObject: _photos[index],)),
+                        );
+                      },
+                        child:
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: CachedNetworkImage(
+                                    imageUrl: _photos[index].urls.small,
+                                    placeholder: (context, url) => Container(
+                                      color: const Color(0xfff5f8fd),
+                                    ),
+                                    fit: BoxFit.cover
+                                )
+                            ),
+                    )
+                );
+              }
+    )
+          ),
       ),
       );
 
   }
   
+}
+
+Widget brandName() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: const <Widget>[
+      Text(
+        "Wallpaper",
+        style: TextStyle(color: Colors.white, fontFamily: 'Overpass'),
+      ),
+      Text(
+        "Store",
+        style: TextStyle(color: Colors.deepOrange, fontFamily: 'Overpass'),
+      )
+    ],
+  );
 }
 
 

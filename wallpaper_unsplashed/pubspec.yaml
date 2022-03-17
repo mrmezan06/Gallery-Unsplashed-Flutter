@@ -38,6 +38,9 @@ dependencies:
   http: ^0.13.4
   cached_network_image: ^3.2.0
   animated_splash_screen: ^1.2.0
+  image_gallery_saver: ^1.7.1
+  permission_handler: ^9.2.0
+  dio: ^4.0.4
 
 dev_dependencies:
   flutter_test:
