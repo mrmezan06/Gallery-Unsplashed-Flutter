@@ -55,7 +55,7 @@ class ImageUI extends StatelessWidget {
                 InkWell(
                     onTap: () {
 
-                      _save(context, imageObject.urls.full);
+                      _save(context, imageObject.urls.regular);
 
                       //Navigator.pop(context);
                     },
@@ -90,7 +90,7 @@ class ImageUI extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const <Widget>[
                                 Text(
-                                  "Save HD",
+                                  "Save FHD",
                                   style: TextStyle(
                                       color: Colors.white70,
                                       fontSize: 15,
@@ -113,7 +113,7 @@ class ImageUI extends StatelessWidget {
                 InkWell(
                   onTap: () {
 
-                    _save(context, imageObject.urls.raw);
+                    _save(context, imageObject.urls.full);
 
                     //Navigator.pop(context);
                   },
@@ -148,7 +148,7 @@ class ImageUI extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const <Widget>[
                               Text(
-                                "Save FHD",
+                                "Save UHD",
                                 style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: 15,
